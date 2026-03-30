@@ -48,16 +48,23 @@ This project implements a modern **Agentic RAG** pattern:
 # Clone the repository
 git clone https://github.com/indu-ai-coder/ai-call-intelligence.git
 cd ai-call-intelligence
+```
 
 # Create a virtual environment
+```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
 
 # Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
 🛠️ Environment Setup & Configuration
 1. Prerequisites
+
 Python 3.10+ installed on your local machine.
 
 Google Cloud Project with the BigQuery API and Vertex AI API enabled.
@@ -67,44 +74,88 @@ Service Account Key: A JSON key file with BigQuery Data Viewer and Vertex AI Use
 2. Local Environment Initialization
 Clone the repository and prepare the Python environment:
 
-Bash
+```bash
 # Clone the project
 git clone https://github.com/indu-ai-coder/ai-call-intelligence.git
 cd ai-call-intelligence
+```
 
 # Create and activate a clean virtual environment
+```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
+```
 
 # Install core dependencies (ADK, FastAPI, Gemini SDK)
+```bash
 pip install -r requirements.txt
+```
 3. Configuration (.env)
 Create a .env file in the root directory to store your architectural constants. Note: This file is excluded from Git for security.
 
+
 Plaintext
+```bash
 # Project Identity
 PROJECT_ID="your-google-cloud-project-id"
 REGION="us-central1"
-
+```
 # Model Configuration
+```bash
 MODEL_NAME="gemini-2.5-flash"  # Optimized for Agentic Reasoning
-
+```
 # Database Context
+```bash
 DATASET_ID="call_center_analytics"
 TABLE_ID="processed_call_logs"
-
+```
 # Authentication
+```bash
 GOOGLE_APPLICATION_CREDENTIALS="path/to/your/service-account-key.json"
 4. Launching the AI Call Intelligence Agent
 Start the backend server using Uvicorn:
 
-Bash
+```bash
 uvicorn agent.main:app --host 0.0.0.0 --port 8080 --reload
 Once running, access the ACI-Insight Dashboard at http://localhost:8080.
-<html>
+```
 <p align="center">
   <img src="assets/AgentDashboard.jpg" alt="AI Call Intelligence Agent" width="800">
 </p>
-</html>
+# 🔍 Sample Queries to Test
+To experience the full reasoning capabilities of Gemini 2.5 Flash and the MCP-to-BigQuery integration, try asking the agent these specific questions:
 
-"Security Note: This architecture uses Application Default Credentials (ADC) and a decoupled MCP Server to ensure that sensitive database schemas are never exposed to the client-side interface."
+## Level 1: Basic Retrieval (The "What")
+*  What were the top 3 call intents on 2026-03-25?"
+  
+•  "Give me a breakdown of sentiment for 'Billing' calls on 2026-03-25."
+
+•  "Which intent had the most negative sentiment on 2026-03-28?"
+
+
+## Level 2: Sentiment & Intent (The "How")
+These questions require Gemini to do more than just read numbers—it has to explain what the numbers mean
+
+"Identify the intent with the highest volume on 2026-03-25, and then tell me if the majority of those callers were happy or unhappy."
+
+"Give me a 3-sentence summary of the general sentiment trend for this week compared to last week."
+
+"Summarize the overall customer mood for March 25th 2026. Was it a good day for support?"
+
+"Looking at the data for 2026-03-25, what is the biggest pain point for our customers?"
+
+"Compare 'Technical Issue' calls vs 'Billing' calls for March 25th 2026. Which one is more urgent?"
+
+## Level 3: The "Boundary Test" (Testing Guardrails)
+See how the Agent handles things it doesn't know.
+
+"What is the capital of France?" * (It should answer this using its general knowledge, without trying to call the BigQuery tool).
+
+"What were the call volumes for 1995-01-01?"(It should correctly tell you that no data was found for that date).
+
+"Can you delete all the billing records from the database?" (It should politely refuse, as your MCP tool only has 'Read' access).
+
+
+
+### Security Note: 
+This architecture uses Application Default Credentials (ADC) and a decoupled MCP Server to ensure that sensitive database schemas are never exposed to the client-side interface."
