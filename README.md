@@ -46,7 +46,7 @@ This project implements a modern **Agentic RAG** pattern:
 ### 2. Installation
 ```bash
 # Clone the repository
-git clone [https://github.com/indu-ai-coder/ai-call-intelligence.git](https://github.com/indu-ai-coder/ai-call-intelligence.git)
+git clone https://github.com/indu-ai-coder/ai-call-intelligence.git
 cd ai-call-intelligence
 
 # Create a virtual environment
@@ -69,7 +69,7 @@ Clone the repository and prepare the Python environment:
 
 Bash
 # Clone the project
-git clone https://github.com/YOUR_USERNAME/ai-call-intelligence.git
+git clone https://github.com/indu-ai-coder/ai-call-intelligence.git
 cd ai-call-intelligence
 
 # Create and activate a clean virtual environment
@@ -95,14 +95,16 @@ TABLE_ID="processed_call_logs"
 
 # Authentication
 GOOGLE_APPLICATION_CREDENTIALS="path/to/your/service-account-key.json"
-4. Launching the ACI-Insight Agent
+4. Launching the AI Call Intelligence Agent
 Start the backend server using Uvicorn:
 
 Bash
 uvicorn agent.main:app --host 0.0.0.0 --port 8080 --reload
 Once running, access the ACI-Insight Dashboard at http://localhost:8080.
+<html>
 <p align="center">
-  <img src="assets/dashboard.png" alt="AI Call Intelligence Agent" width="800">
+  <img src="assets/AgentDashboard.jpg" alt="AI Call Intelligence Agent" width="800">
 </p>
+</html>
 
 "Security Note: This architecture uses Application Default Credentials (ADC) and a decoupled MCP Server to ensure that sensitive database schemas are never exposed to the client-side interface."
