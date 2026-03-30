@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+requests
+google-cloud-aiplatform
+python-multipart
+python-dotenv
