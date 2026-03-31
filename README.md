@@ -15,6 +15,23 @@ This project implements a modern **Agentic RAG** pattern:
 2.  **Secure Retrieval:** A custom **MCP Server** translates natural language into optimized SQL for **BigQuery**.
 3.  **Synthesis:** The Agent processes raw results into a 3-sentence executive summary, highlighting sentiment trends and operational anomalies.
 
+### 🔍 Architecture
+<p align="center">
+  <img src="assets/Architecture.jpg" alt="AI Call Intelligence Agent Architecture" width="800">
+</p>
+
+
+### 🔄 System Process Flow
+
+1. **User Request:** The process begins when a stakeholder submits a natural language query via the ACI-Insight frontend.
+2. **Intent Analysis:** **Gemini 2.5 Flash** parses the request to identify specific entities like dates, call intents, or sentiment categories.
+3. **Task Orchestration:** The **Google ADK** determines the necessary reasoning steps and identifies the required data tools.
+4. **MCP Bridge:** The agent sends a structured request to the **Model Context Protocol (MCP)** server to bridge the gap between the LLM and the data warehouse.
+5. **SQL Generation:** The custom MCP server translates the agent’s intent into an optimized, secure SQL query for **Google BigQuery**.
+6. **Secure Data Retrieval:** Results are fetched from the `processed_call_logs` table using service-account-level permissions to ensure data integrity.
+7. **Insight Synthesis:** The raw data is returned to Gemini, which performs a final reasoning step to transform rows of data into a 3-sentence executive summary.
+8. **Responsive Delivery:** The finalized insight is pushed back to the UI, providing the user with immediate, actionable business intelligence.
+
 ---
 
 ## 🛠️ Technical Stack
@@ -35,6 +52,13 @@ This project implements a modern **Agentic RAG** pattern:
 * **Enterprise Security:** Decoupled architecture ensures the LLM never has unmanaged direct access to the database schema.
 
 ---
+## Project Structue
+
+### 🔍 Architecture
+<p align="center">
+  <img src="assets/ProjectStructure.jpg" alt="Project Folder Structure" width="800">
+</p>
+
 
 ## 💻 Quick Start Guide
 
@@ -120,17 +144,29 @@ uvicorn agent.main:app --host 0.0.0.0 --port 8080 --reload
 Once running, access the ACI-Insight Dashboard at http://localhost:8080.
 ```
 <p align="center">
-  <img src="assets/AgentDashboard.jpg" alt="AI Call Intelligence Agent" width="800">
+  <img src="assets/loadingPg1.jpg" alt="AI Call Intelligence Agent" width="800">
 </p>
 # 🔍 Sample Queries to Test
 To experience the full reasoning capabilities of Gemini 2.5 Flash and the MCP-to-BigQuery integration, try asking the agent these specific questions:
 
+
+
 ## Level 1: Basic Retrieval (The "What")
 *  What were the top 3 call intents on 2026-03-25?"
+
+<p align="center">
+  <img src="assets/Top3Intents.jpg" alt="Top 3 Intents " width="800">
+</p>
   
 •  "Give me a breakdown of sentiment for 'Billing' calls on 2026-03-25."
-
+<p align="center">
+  <img src="assets/sentBreakdown.jpg" alt="Top 3 Intents " width="800">
+</p>
 •  "Which intent had the most negative sentiment on 2026-03-28?"
+
+<p align="center">
+  <img src="assets/AgentDashboard.jpg" alt="Most Negative Sentiment" width="800">
+</p>
 
 
 ## Level 2: Sentiment & Intent (The "How")
@@ -154,6 +190,9 @@ See how the Agent handles things it doesn't know.
 "What were the call volumes for 1995-01-01?"(It should correctly tell you that no data was found for that date).
 
 "Can you delete all the billing records from the database?" (It should politely refuse, as your MCP tool only has 'Read' access).
+<p align="center">
+  <img src="assets/deleteReq.jpg" alt="Sample Question " width="800">
+</p>
 
 
 
